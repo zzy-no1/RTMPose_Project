@@ -1,0 +1,13 @@
+Verified experiment environment reference
+=========================================
+Python: 3.10.20
+torch: 2.7.1+cu128
+numpy: 1.23.5
+mmcv: 2.1.0
+mmengine: 0.10.7
+mmpose: 1.3.2
+albumentations: 1.3.1
+opencv-python: 4.8.1
+
+The training configs also use MMDetection's CSPNeXt backbone and transforms.
+Install a compatible mmdet 3.x release as described in SERVER_SETUP.md.

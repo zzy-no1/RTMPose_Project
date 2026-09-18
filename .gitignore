@@ -132,3 +132,13 @@ docs/**/modelzoo.md
 *.pth
 
 *.DS_Store
+
+# Local experiment artifacts
+rtmpose_result.jpg
+rtmpose_server_package.tar.gz
+checkpoints/
+
+# Analysis outputs
+analysis/bad_cases/
+analysis/error_analysis/
+analysis/error_distribution/
