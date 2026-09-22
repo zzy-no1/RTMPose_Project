@@ -27,9 +27,18 @@ cd RTMPose_Project
 
 详细安装见 `ENVIRONMENT.md`，也可参考 `setup_env.sh`。
 
-## 3. 数据目录
+## 3. 数据集准备
+
+本项目使用 COCO 2017 人体关键点数据集。
+
+由于 COCO 2017 原始数据集体积较大，本 GitHub 仓库不直接提供完整 COCO 数据集。使用本项目进行训练或验证前，需要自行准备：
 
 ```text
+train2017/
+val2017/
+annotations/
+准备完成后的推荐数据目录结构如下：
+
 RTMPose_Project/
 └── data/
     └── coco/
@@ -40,36 +49,61 @@ RTMPose_Project/
         │   └── COCO_val2017_detections_AP_H_56_person.json
         ├── train2017/
         └── val2017/
-```
 
-COCO 数据不包含在 GitHub 仓库中。
+COCO 2017 正常情况下应包含：
 
-如果实际数据位于：
+train2017: 118287 images
+val2017:   5000 images
 
-```text
-/root/autodl-tmp/datasets/coco
-```
+可以使用以下命令检查：
 
-可创建软链接：
-
-```bash
-mkdir -p data
-ln -s /root/autodl-tmp/datasets/coco data/coco
-```
-
-检查：
-
-```bash
 find data/coco/train2017 -maxdepth 1 -type f | wc -l
 find data/coco/val2017 -maxdepth 1 -type f | wc -l
-```
+3.1 配置 person detection results
 
-正常数量：
+仓库已经提供：
 
-```text
-train2017: 118287
-val2017: 5000
-```
+resources/person_detection_results/COCO_val2017_detections_AP_H_56_person.json
+
+将其复制到训练配置默认读取的位置：
+
+mkdir -p data/coco/person_detection_results
+
+cp resources/person_detection_results/COCO_val2017_detections_AP_H_56_person.json \
+   data/coco/person_detection_results/
+
+最终应存在：
+
+data/coco/person_detection_results/
+└── COCO_val2017_detections_AP_H_56_person.json
+3.2 AutoDL 数据目录
+
+在 AutoDL 上，建议将大型 COCO 数据集放在数据盘：
+
+/root/autodl-tmp/datasets/coco/
+
+推荐结构：
+
+/root/autodl-tmp/datasets/coco/
+├── annotations/
+├── person_detection_results/
+│   └── COCO_val2017_detections_AP_H_56_person.json
+├── train2017/
+└── val2017/
+
+然后在项目目录建立软链接：
+
+cd /root/autodl-tmp/RTMPose_Project
+mkdir -p data
+ln -s /root/autodl-tmp/datasets/coco data/coco
+
+如果 data/coco 已经存在，请不要重复创建软链接。
+
+可以使用以下命令确认实际数据路径：
+
+readlink -f data/coco
+
+注意：train2017、val2017 和 annotations 不上传至本 GitHub 仓库。仓库提供项目代码、实验配置、训练脚本、环境说明以及本实验使用的 person detection results。
 
 ## 4. 环境和代码自检
 
